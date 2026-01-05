@@ -1,0 +1,18 @@
+{
+  "type": "json_schema",
+  "json_schema": {
+    "name": "promise_classification",
+    "strict": true,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": ["0", "1"]
+        }
+      },
+      "required": ["classification"],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LLM Classification Tool</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/viewer.css">
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LLM Classification Tool</h1>
+            <p>Upload a dataset, configure your model, and run classifications with live monitoring.</p>
+        </header>
+
+        <div class="card">
+            <div class="card-header" onclick="toggleSection('section-howto')">
+                <h2>How to Use</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-howto">
+                <ol class="howto-list">
+                    <li>Pick a test case or upload your own API key, prompt, schema, and CSV.</li>
+                    <li>Map the ID and text columns and optionally review/edit rows.</li>
+                    <li>Choose a model, estimate cost, then start the run.</li>
+                    <li>Review results, charts, and download JSONL.</li>
+                </ol>
+                <small>Tip: For test cases, serve this folder or use GitHub Pages to avoid browser file restrictions.</small>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" onclick="toggleSection('section-testcases')">
+                <h2>Test Cases</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-testcases">
+                <div class="row" style="align-items:center;">
+                    <div class="half form-group">
+                        <label for="testcase-select">Use Test Case</label>
+                        <select id="testcase-select">
+                            <option value="">Select a test case...</option>
+                            <option value="l1">L1 Level (Subsample)</option>
+                            <option value="p1">P1 Promise (Sample)</option>
+                        </select>
+                    </div>
+                    <div class="half form-group" style="display:flex; align-items:flex-end;">
+                        <button type="button" id="btn-load-testcase" class="secondary-btn">Load Test Case</button>
+                    </div>
+                </div>
+                <small>Loading a test case replaces the current prompt, schema, and dataset in memory.</small>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" onclick="toggleSection('section-inputs')">
+                <h2>Inputs</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-inputs">
+                <div class="row">
+                    <div class="half">
+                        <div class="form-group">
+                            <label for="api-key">API Key</label>
+                            <input id="api-key" type="password" placeholder="sk-...">
+                            <small>Kept in-memory only for this session.</small>
+                        </div>
+                        <div class="drop-zone" id="drop-api-key">
+                            <input type="file" id="file-api-key" accept=".txt">
+                            <span class="drop-text" id="api-key-text">Drop API key file or <button type="button" onclick="document.getElementById('file-api-key').click()">Browse</button></span>
+                        </div>
+                    </div>
+                    <div class="half">
+                        <div class="form-group">
+                            <label for="system-prompt">System Prompt</label>
+                            <textarea id="system-prompt" rows="6" placeholder="You are a classifier..."></textarea>
+                        </div>
+                        <div class="drop-zone" id="drop-prompt">
+                            <input type="file" id="file-prompt" accept=".txt,.md">
+                            <span class="drop-text" id="prompt-text">Drop prompt file or <button type="button" onclick="document.getElementById('file-prompt').click()">Browse</button></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:15px;">
+                    <label for="json-schema">JSON Schema / response_format</label>
+                    <textarea id="json-schema" rows="6" class="code-font" placeholder='{"type":"json_schema","json_schema":{"name":"classification","schema":{"type":"object","properties":{"classification":{"type":"string"}},"required":["classification"]}}}'></textarea>
+                    <small>Paste a full response_format object or a raw schema with "properties".</small>
+                </div>
+                <div class="drop-zone" id="drop-schema">
+                    <input type="file" id="file-schema" accept=".json,.txt">
+                    <span class="drop-text" id="schema-text">Drop schema file or <button type="button" onclick="document.getElementById('file-schema').click()">Browse</button></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" onclick="toggleSection('section-data')">
+                <h2>Dataset</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-data">
+                <div class="form-group">
+                    <label for="csv-file">CSV File</label>
+                    <input type="file" id="csv-file" accept=".csv">
+                    <small>CSV should include an ID column and an input text column.</small>
+                </div>
+                <div id="column-mapping" class="hidden">
+                    <div class="row">
+                        <div class="half form-group">
+                            <label for="col-id">ID Column</label>
+                            <select id="col-id"></select>
+                        </div>
+                        <div class="half form-group">
+                            <label for="col-text">Text Column</label>
+                            <select id="col-text"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card hidden" id="section-review">
+            <div class="card-header" onclick="toggleSection('section-review-body')">
+                <h2>Review Inputs</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-review-body">
+                <div class="row" style="align-items:center;">
+                    <button type="button" id="btn-review-prev" class="secondary-btn">Prev</button>
+                    <div style="font-weight:600;">
+                        Row <span id="review-index">0</span> of <span id="review-total">0</span>
+                    </div>
+                    <button type="button" id="btn-review-next" class="secondary-btn">Next</button>
+                    <button type="button" id="btn-review-delete" class="danger-btn">Remove Row</button>
+                </div>
+                <div class="row" style="margin-top:15px;">
+                    <div class="half form-group">
+                        <label for="review-id">ID</label>
+                        <input id="review-id" type="text">
+                    </div>
+                    <div class="half form-group">
+                        <label for="review-text">Text</label>
+                        <textarea id="review-text" rows="6"></textarea>
+                    </div>
+                </div>
+                <small>Edits update the in-memory dataset used for classification.</small>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" onclick="toggleSection('section-model')">
+                <h2>Model Settings</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-model">
+                <div class="row">
+                    <div class="third form-group">
+                        <label for="model-select">Model</label>
+                        <select id="model-select">
+                            <option value="gpt-4o">gpt-4o</option>
+                            <option value="gpt-4o-mini">gpt-4o-mini</option>
+                            <option value="gpt-4-turbo">gpt-4-turbo</option>
+                            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                        </select>
+                    </div>
+                    <div class="third form-group">
+                        <label for="temperature">Temperature</label>
+                        <input id="temperature" type="number" min="0" max="2" step="0.1" value="0">
+                    </div>
+                    <div class="third form-group">
+                        <label for="top-logprobs">Top Logprobs</label>
+                        <select id="top-logprobs">
+                            <option value="null">None</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="third form-group">
+                        <label for="seed">Seed (Optional)</label>
+                        <input id="seed" type="number" min="0" step="1" placeholder="1234">
+                    </div>
+                    <div class="third form-group">
+                        <label for="rpm-limit">Target RPM</label>
+                        <input id="rpm-limit" type="number" min="1" step="1" value="500">
+                    </div>
+                    <div class="third form-group" style="display:flex; align-items:flex-end;">
+                        <button type="button" id="btn-calc-cost" class="secondary-btn">Estimate Cost</button>
+                    </div>
+                </div>
+                <div id="cost-results" class="hidden">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-label">Input Tokens</span>
+                            <span class="stat-value" id="est-input-tokens">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Output Tokens</span>
+                            <span class="stat-value" id="est-output-tokens">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Total Cost</span>
+                            <span class="stat-value" id="est-total-cost">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" onclick="toggleSection('section-run')">
+                <h2>Run</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-run">
+                <div class="row">
+                    <button type="button" id="btn-start" class="primary-btn" disabled>Start Classification</button>
+                    <button type="button" id="btn-stop" class="danger-btn hidden">Stop</button>
+                    <button type="button" id="btn-download" class="secondary-btn" disabled>Download Results</button>
+                </div>
+                <div class="progress-container" style="margin-top:15px;">
+                    <div id="progress-bar" class="progress-bar" style="width:0%;"></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Progress</span>
+                        <span class="stat-value" id="stat-progress">0 / 0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Errors</span>
+                        <span class="stat-value error-text" id="stat-errors">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Concurrency</span>
+                        <span class="stat-value" id="stat-concurrency">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Effective RPM</span>
+                        <span class="stat-value" id="stat-rpm">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card hidden" id="section-results">
+            <div class="card-header" onclick="toggleSection('section-results-body')">
+                <h2>Results</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-results-body">
+                <div class="stats-grid" style="margin-bottom:20px;">
+                    <div class="stat-box">
+                        <span class="stat-label">Model</span>
+                        <span class="stat-value" id="stat-model">N/A</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Fingerprints</span>
+                        <span class="stat-value" id="stat-fingerprints">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Total Time</span>
+                        <span class="stat-value" id="stat-total-time">0s</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Total Cost</span>
+                        <span class="stat-value" id="stat-total-cost">$0.0000</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="half chart-container">
+                        <canvas id="chart-conf"></canvas>
+                    </div>
+                    <div class="half chart-container">
+                        <canvas id="chart-margin"></canvas>
+                    </div>
+                </div>
+                <div style="margin-top:15px;">
+                    <div class="result-row result-header">
+                        <div>Status</div>
+                        <div>ID</div>
+                        <div>Class</div>
+                        <div>Top-1</div>
+                        <div>Margin</div>
+                        <div>Time</div>
+                        <div>Cost</div>
+                        <div>Info</div>
+                    </div>
+                    <div class="results-scroll">
+                        <div id="results-table-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" onclick="toggleSection('section-activity')">
+                <h2>Activity</h2>
+                <span>Toggle</span>
+            </div>
+            <div class="card-body" id="section-activity">
+                <div class="log-container">
+                    <label>Log</label>
+                    <div id="activity-log" class="console"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/limiter.js?v=1"></script>
+    <script src="js/utils.js?v=1"></script>
+    <script src="js/api.js?v=1"></script>
+    <script src="js/main.js?v=1"></script>
+</body>
+</html>

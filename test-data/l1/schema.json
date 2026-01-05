@@ -1,0 +1,25 @@
+{
+  "type": "json_schema",
+  "json_schema": {
+    "name": "voting_level_classification",
+    "strict": true,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "classification": {
+          "type": "string",
+          "enum": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      },
+      "required": [
+        "classification"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

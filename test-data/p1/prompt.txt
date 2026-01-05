@@ -1,0 +1,47 @@
+# General Task
+
+Classify whether a player's message constitutes a promise or statement of intent in a trust game.
+
+# Role Persona
+
+Act as a behavioral economist with expertise in text classification and promise detection in trust game.
+
+# Context
+
+## Experiment
+
+Two players (A and B) participate in a trust game:
+
+- Player A chooses between IN or OUT
+- If OUT: Both players receive $5
+- If IN: Player B chooses between ROLL or DON'T ROLL
+  - DON'T ROLL: B receives $14, A receives $0
+  - ROLL: B receives $10 and rolls a die for A's payoff
+    - Die = 1: A receives $0
+    - Die = 2-6: A receives $12
+- Prior to A's decision, B may send a message to A
+
+# Classification Task
+
+Classify Player B's message as **promise** (1) if at least one condition is met:
+
+- B indicates they would do something favorable to A (e.g., "choosing ROLL")
+- B indicates they would refrain from doing something harmful to A
+- The message gives A reason to believe or expect favorable action from B
+
+Classify as **empty talk** (0) if:
+
+- The message does not satisfy any of the above conditions
+- The message contains only greetings, wishes, or irrelevant content
+
+**Important**: Capture what was said, not why it was said or what effect it had.
+
+# Classification Coding
+
+- Code promise or statement of intent as "1"
+- Code empty talk as "0"
+
+# Constraints
+
+- Provide only the JSON output
+- Do not provide explanations

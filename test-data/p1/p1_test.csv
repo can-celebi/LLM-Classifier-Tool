@@ -1,0 +1,60 @@
+id,localId,dataset,task,input
+1,1_1,p1,promise,Please choose In so we can get paid more.
+2,1_2,p1,promise,"Choose in, I will roll dice, you are 5 /6 likely to get 2,3,4,5, or 6 → $12. This way both of us will win something"
+3,1_3,p1,promise,"If you stay in, the chances of the die coming up other than 1 are 5 in 6 – pretty good. Otherwise, we’d both be stuck at $5. (If you opt out)"
+4,1_4,p1,promise,"I have to do laundry tonight and I really don’t want to do it! But I don’t have any clean underwear left and I don’t want to go commando tommorrow. We’ll see what I decide tonight. This man acts funny doesn’t he? But he seems cool, he’s quite a character. All this mystery is kinda cool."
+5,1_5,p1,promise,"If you will choose “In”, I will choose to roll. This way, we both have an opportunity to make more than $5! :)"
+6,1_7,p1,promise,"If I roll a 2–6 (you’ll know when you receive the $, you will give $5.00 to a stranger. 
+ [[[then there is a line, under which is written “Sign here if you are so kind]]] 
+ Thanks. You’ll still be gaining more than if I had chosen Don’t roll."
+7,1_8,p1,promise,The fairest thing to do is if you opt “IN”. Then I will proceed to choose “roll.” That way you and I have 5 /6 chances to make money for the both of us. That’s much better than just making $5 each. Increases both our chances. Thanks.
+8,1_9,p1,promise,Choose In and I will Roll You have my word
+9,1_10,p1,promise,"Good luck 
+ I do not know what I’m going to do, so I have no hints on how to advise you on choosing “in” or “out.” Though it would be beneﬁcial for me to pick don’t roll and hope you pick “in”, I also like to give you a chance to gain some cash. Who knows?"
+10,1_11,p1,promise,"What’s up? Good luck on your decision. Choose whatever. If you choose “out,” you get only $10 total. If you choose “In,” you can get $17 total instead of only $10. 7 bucks is a lot of money!"
+11,1_12,p1,promise,Hey. OK I think that the best way for both of us to make a proﬁt is for you to choose IN and for me to roll. That way we both make some money. There’s no point in me not rolling because that would give you and me less proﬁt. So I’m a roller if you’re in. :)
+12,1_13,p1,promise,take a risk
+13,1_14,p1,promise,If you choose IN the ﬁrst round and then I will choose Don’t Roll at ﬁrst. I will get $14 but then after that I will choose roll each time after the 1strole. Chances are most likely you will get $12 and I will get only $10. I will the only take 7 rolls for you to get even with me. That way we both leave with a good amount of money. Hope you have a great evening and that this works out for both of us. :)
+14,1_15,p1,promise,"If you choose in I’ll roll. 
+ Why? If you choose out, we walk out with $10 each. If you choose IN & I choose IN then both of us coin. So it’s a compro-mise. By agreeing to this I guarantee myself more $ than risking you choose out. So if you choose out I get $10 ($5 diff.) if you choose in I get $15 vs. $19 ($4 diff.). that’s why"
+15,1_18,p1,promise,Choose “In” so we can both make some $$ What are the chances me rolling a 1? I’ll try my best.
+16,2_1,p1,promise,I’m going to roll.
+17,2_2,p1,promise,I’ll choose roll.
+18,2_3,p1,promise,I will choose roll.
+19,2_4,p1,promise,I’m going to choose roll
+20,2_5,p1,promise,"choose in, & I’ll roll."
+21,2_6,p1,promise,You can have the 2 extra dollars. I’ll be nice and choose to roll. :)
+22,2_8,p1,promise,"Hey, choose in and I will roll. You have to like your odds that I will roll a 2,3,4,5, or 6. 5/6 odds ain’t bad."
+23,2_9,p1,promise,"If you choose “In”, I’ll choose Roll and you’ve got a 5/6 chance of getting $12."
+24,2_10,p1,promise,"Stay IN, I really need the money."
+25,2_11,p1,promise,"If you choose IN, and I roll, the chances of our getting the most $ are very high. The likelyhood of my rolling a 1 is small compared to the chances of rolling a 2–6. So we both get cash."
+26,2_12,p1,promise,"Hi, well I’m going to Roll so you have at least a shot for more money. I hope it works out."
+27,3_1,p1,promise,Hopefully I’ll make a lucky role.
+28,3_2,p1,promise,It’s much more likely that I’ll roll a 2–6 and thus get more money then if we don’t roll or choose out. I promise that I won’t cheat you and that I’ll choose to roll. :)
+29,3_3,p1,promise,"Tee hee, this is kinda Twilight Zone – ism; Why not “go for it”, eh? I hope you have a lovely evening as well."
+30,3_4,p1,promise,"Hello fair stranger, anonymous partner... Choose whatever you want. Far be it from me to inﬂuence your decision, but I think you should choose “in” and I should choose “roll” and we should take the chance at both earning as much as we can. 5 chances out of 6 say it’ll work, and I’m totally broke, looking to rake in stray cash however I can. I feel the luck in the air. I don’t really have much else to say. Hope you’re doing well, whoever you are. Yes. That’s all. Random note from random human"
+31,3_5,p1,promise,Both of ‘us’ can earn.
+32,3_6,p1,promise,"Ok. You’re probably thinking, lets chose out, and I’ll at least get 5 bucks. But... 
+ ...Chose ‘IN’, and I WILL chose to roll. 
+ The probability that I will roll a 2,3,4,5, or 6 is pretty high, and I think worthy of trying for. 
+ (I have no way of assuring you that I will roll... but, its probably worth going for, you’ll get $12 for ﬁnding out, where I could get $10.) 
+ x. I WILL ROLL"
+33,3_7,p1,promise,"I will roll, so if you stay in, you’ve got a 5 /6 chance of getting $12. 
+ If you don’t mind the risk, if you stay in we’ll both probably get more than $5… Pretty cool to get money, eh? I’m kinda bored. Hope you’ve had a great day so far! 
+ My country Tis of Thee 
+ Sweet Land of Liberty 
+ Of Thee I sing. 
+
+ George W . Bush wants you to go in! Bin Laden says “out”! :)"
+34,3_8,p1,promise,"Lets together get the most $ out of this that we can: 
+ you 12 0 0 5 
+ me 10 10 14 5 
+ I promise not to do this one [points out: me 14 and you 0 values in the text]. I promise I will choose to roll. You can have the extra $2 bucks. 
+ It’s good karma. 
+ Thanks. 
+ I will choose ROLL in any case considering I will get the same amount no matter what you choose, as long as you choose IN. 
+ please excuse the awful handwriting. I’m trying"
+35,3_9,p1,promise,"I’m choosing ROLL, which gives you a chance to get $12 instead of $5, so stay. It’s a risk, but you could end up getting a lot more."
+36,3_10,p1,promise,If you choose in then I’m going to choose roll. This gives you a 5/6 chance of getting 12 dollars. That is 7 more than if you choose out. Since the money is free anyway – why not believe me. I’m don’t lie– I promise I will choose roll.
+37,3_11,p1,promise,If you choose IN you have the best opportunity to make the most money. You have a 5 /7 chance of making more money! So IN would be your best bet. Cheers.:)
+38,3_12,p1,promise,Choose IN 
